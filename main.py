@@ -31,7 +31,15 @@ except Exception as e:
     logger.critical(f"Failed to load config: {e}")
     exit(1)
 
-BOT_TOKEN       = config["bot"]["token"]
+raw_env_token = os.getenv("BOT_TOKEN")
+
+if raw_env_token and raw_env_token.strip():
+    BOT_TOKEN = raw_env_token.strip().strip('"').strip("'")
+    logger.info(f"Token loaded from ENV (length={len(BOT_TOKEN)}, starts={BOT_TOKEN[:10]}...)")
+else:
+    BOT_TOKEN = config["bot"]["token"]
+    logger.info(f"Token loaded from config.yml (length={len(BOT_TOKEN)}, starts={BOT_TOKEN[:10]}...)")
+
 PREFIX          = config["bot"]["prefix"]
 
 GUILD_ID        = config["guild"]["id"]
@@ -1044,4 +1052,5 @@ if __name__ == "__main__":
     except discord.LoginFailure:
         logger.critical("Invalid bot token!")
     except Exception as e:
+
         logger.critical(f"Failed to start bot: {e}\n{traceback.format_exc()}")
