@@ -8,6 +8,7 @@ import yaml
 import logging
 import traceback
 import re
+import os
 
 # ==================== логирование ====================
 
@@ -1054,3 +1055,4 @@ if __name__ == "__main__":
     except Exception as e:
 
         logger.critical(f"Failed to start bot: {e}\n{traceback.format_exc()}")
+
